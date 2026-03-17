@@ -1,7 +1,7 @@
 # Railway Deployment
 
 ## Build command
-`npm install --include=dev --no-audit --no-fund && npm run build`
+`npm run build`
 
 ## Start command
 `npm run start`
@@ -11,8 +11,5 @@
 
 ## Notes
 - This is a Vite SPA compiled to `dist/`.
-- Production serving uses `serve -s dist` so client-side routes resolve correctly.
-- Node 20 is required (see `package.json` `engines`).
-- `railway.toml` explicitly configures Railway to avoid `npm ci` lockfile strictness issues and always install build tooling before building.
-
-- `nixpacks.toml` also pins install/build/start so Nixpacks does not default back to `npm ci`.
+- The app is served in production with `serve -s dist` for SPA route fallback.
+- Node 20 is required (see `package.json` `engines` and `nixpacks.toml`).
