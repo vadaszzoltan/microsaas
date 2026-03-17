@@ -1,9 +1,9 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area 
 } from 'recharts';
 import { 
-  LayoutDashboard, Package, Users, ReceiptEuro, TrendingUp, Plus, Edit2, Trash2, Download, Upload, CheckCircle2, XCircle, Copy, MessageSquare, BarChart3, LineChart as LineChartIcon
+  LayoutDashboard, Package, Users, ReceiptEuro, TrendingUp, Plus, Trash2, Download, Upload, CheckCircle2, Copy, BarChart3, LineChart as LineChartIcon
 } from 'lucide-react';
 
 // --- Konstansok ---
@@ -256,7 +256,7 @@ const App = () => {
   const SidebarItem = ({ id, icon: Icon, label }) => (
     <button
       onClick={() => setActiveTab(id)}
-      className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+      className={`w-full flex shrink-0 items-center space-x-3 whitespace-nowrap px-4 py-3 rounded-lg transition-colors ${
         activeTab === id ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:bg-gray-800 hover:text-white'
       }`}
     >
@@ -266,9 +266,9 @@ const App = () => {
   );
 
   return (
-    <div className="flex h-screen bg-gray-950 text-gray-100 font-sans overflow-hidden">
+    <div className="flex min-h-screen flex-col bg-gray-950 text-gray-100 font-sans lg:flex-row">
       {/* Sidebar */}
-      <aside className="w-64 bg-gray-900 border-r border-gray-800 p-6 flex flex-col space-y-8">
+      <aside className="w-full shrink-0 border-b border-gray-800 bg-gray-900 p-4 lg:w-64 lg:border-b-0 lg:border-r lg:p-6">
         <div className="flex items-center space-x-3 px-2">
           <div className="bg-blue-600 p-2 rounded-lg">
             <TrendingUp size={24} className="text-white" />
@@ -276,30 +276,30 @@ const App = () => {
           <h1 className="text-xl font-bold tracking-tight">FinPlan <span className="text-blue-500">Pro</span></h1>
         </div>
         
-        <nav className="flex-1 space-y-2">
+        <nav className="mt-4 flex gap-2 overflow-x-auto pb-1 lg:mt-8 lg:flex-1 lg:flex-col lg:space-y-2 lg:gap-0 lg:overflow-visible">
           <SidebarItem id="dashboard" icon={LayoutDashboard} label="Dashboard" />
           <SidebarItem id="products" icon={Package} label="Termékek & Ügyfelek" />
           <SidebarItem id="costs" icon={ReceiptEuro} label="Költségek" />
           <SidebarItem id="io" icon={Upload} label="Import / Export" />
         </nav>
 
-        <div className="pt-6 border-t border-gray-800">
+        <div className="mt-4 border-t border-gray-800 pt-4 lg:mt-0 lg:pt-6">
           <p className="text-xs text-gray-500 text-center">© 2024 Digitális Tervező</p>
         </div>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto p-8">
+      <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
         {activeTab === 'dashboard' && (
           <div className="space-y-8 animate-in fade-in duration-500">
-            <header className="flex justify-between items-end">
+            <header className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div>
                 <h2 className="text-3xl font-bold">Pénzügyi Áttekintés</h2>
                 <p className="text-gray-400">Éves összesített mutatók és elemzések</p>
               </div>
-              <div className="flex space-x-4">
+              <div className="flex flex-wrap gap-3">
                 {/* Chart Type Toggle */}
-                <div className="flex bg-gray-900 p-1 rounded-lg border border-gray-800">
+                <div className="flex flex-wrap bg-gray-900 p-1 rounded-lg border border-gray-800">
                   <button 
                     onClick={() => setChartType('bar')}
                     className={`p-1.5 rounded ${chartType === 'bar' ? 'bg-blue-600 text-white' : 'text-gray-500 hover:text-white'}`}
@@ -415,7 +415,7 @@ const App = () => {
 
         {activeTab === 'products' && (
           <div className="space-y-8 max-w-6xl mx-auto">
-            <header className="flex justify-between items-center">
+            <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div>
                 <h2 className="text-3xl font-bold">Termékek és Előfizetők</h2>
                 <p className="text-gray-400">Digitális termékek bevételeinek modellezése</p>
@@ -439,14 +439,14 @@ const App = () => {
 
               {data.products.map(product => (
                 <div key={product.id} className="bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden shadow-xl">
-                  <div className="p-6 border-b border-gray-800 flex justify-between items-center bg-gray-800/20">
+                  <div className="flex flex-col gap-4 border-b border-gray-800 bg-gray-800/20 p-6 md:flex-row md:items-center md:justify-between">
                     <div className="flex items-center space-x-4">
                       <div className="bg-blue-500/20 p-2 rounded-lg">
                         <Package size={22} className="text-blue-400" />
                       </div>
                       <h3 className="text-2xl font-bold">{product.name}</h3>
                     </div>
-                    <div className="flex space-x-3">
+                    <div className="flex flex-wrap gap-3">
                       <button 
                         onClick={() => addSubscriberInline(product.id)}
                         className="bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 text-sm font-semibold px-4 py-2 rounded-xl flex items-center space-x-2 transition-all"
@@ -624,8 +624,8 @@ const App = () => {
                 </form>
               </div>
 
-              <div className="lg:col-span-3 bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden shadow-xl">
-                <table className="w-full text-left border-collapse">
+              <div className="lg:col-span-3 overflow-x-auto rounded-2xl border border-gray-800 bg-gray-900 shadow-xl">
+                <table className="min-w-[760px] w-full border-collapse text-left">
                   <thead>
                     <tr className="bg-gray-800/50 text-gray-400 text-[10px] uppercase tracking-wider">
                       <th className="px-6 py-4 font-semibold">Megnevezés</th>
